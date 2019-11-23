@@ -1,11 +1,21 @@
 #include "../app/functions/Maze.cpp"
 #include <gtest/gtest.h>
 
-TEST(SquareRootTest, NegativeNos) {
-    ASSERT_EQ(-1.0, squareRoot(-15.0));
-    ASSERT_EQ(-1.0, squareRoot(-0.2));
+TEST(MazeTests, toCharTest) {
+    ASSERT_EQ('#', toChar('#'));
+    ASSERT_EQ('.', toChar('.'));
+    ASSERT_EQ('.', toChar('*'));
 }
- 
+TEST(mazeGenTest, maze) {
+    std::vector<std::vector<char>> ExpectedStr{{'#','*','.'},
+                                               {'#','*','.'},
+                                               {'#','*','.'},
+                                               {'#','*','.'},
+                                               {'#','*','.'}};
+    std::string inputStr = {"#*.#*.\n"};
+    bool condition = ExpectedStr == mazeGen(inputStr, 5, 3);
+    EXPECT_TRUE(condition);
+}
 
 int main(int argc, char **argv){
     testing::InitGoogleTest(&argc, argv);
