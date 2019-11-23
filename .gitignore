@@ -34,3 +34,9 @@
 
 # Local config
 .vscode
+
+# Build
+build/tests/CMakeFiles
+build/tests/CMake_install.CMake_install
+build/tests/CMakeCache.txt
+build/tests/Makefile

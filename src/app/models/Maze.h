@@ -1,4 +1,3 @@
-#include "../app/libs.h"
 #ifndef MAZE
 #define MAZE
 
@@ -10,7 +9,4 @@ public:
     int intToChar(int);
     void getBoard(void);
 };
-
-int maze = new Maze();
-
 #endif

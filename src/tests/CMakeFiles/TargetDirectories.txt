@@ -1,3 +1,0 @@
-/home/jorb/code/Snaze/src/tests/CMakeFiles/rebuild_cache.dir
-/home/jorb/code/Snaze/src/tests/CMakeFiles/executeTests.dir
-/home/jorb/code/Snaze/src/tests/CMakeFiles/edit_cache.dir
