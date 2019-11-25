@@ -59,6 +59,11 @@ void SnakeGame::update (Snake snake, Level phase) {
             nextPosCol = currentCol;
             hearts--;
         }
+        else {
+            
+        }
+        
+        
     }
 }
 
