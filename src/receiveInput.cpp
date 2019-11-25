@@ -9,12 +9,11 @@ void errorMsg(string error)
     if (error != "")
         cout << "Error: " << error << "\n\n";
 
-    cout << "Usage: [<options>] <number_of_puzzles>\n"
-         << "Program options are:\n"
-         << "--Row <num>    Specify the number of rows for the matrix, with '<num>' in the range [7, 16]. The deafult value is 10.\n"
-         << "--Col <num>    Specify the number of collums for the matrix, with '<num>' in the range [7, 16]. The deafult value is 10."
-         << "Requested input is:\n"
-         << "   number of puzzles   The number of puzzles to be generated, in the range [1, 100].\n";
+    cout << "Usage: <input_file>\n"
+         << "The input file must contain, for each level:\n"
+         << "   The number of rows and collums in that order. Both must be integers within the interval (0,100]\n"
+         << "   The maze that will be used in the levels. It's dimensions must match the values given for rows and collums."
+         << "In order to enter more than one level, repeat this pattern for each level to be inserted.\n";
 
     exit(0);
 }
@@ -33,8 +32,8 @@ void receiveInput (int argc, char * argv[], int * quantity, int * rows, int * co
     if (argc == 1)
         errorMsg();
 
-    // Mais do que 6 argumentos (excesso)
-    if (argc > 6)
+    // Mais do que 2 argumentos - incluindo o nome do programa(excesso)
+    if (argc > 2)
         errorMsg("Too many arguments!");
 
     for (auto i{1}; i < argc; i++)
