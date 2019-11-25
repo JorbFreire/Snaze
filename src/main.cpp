@@ -8,6 +8,9 @@ int main(){
     // formata/processa inputs
         // recebe como Y parametro
         // retorna matriz em uma variavel 
+
+    // Vou deixar definida uma matriz aqui p teste
+
     // entra no game loop
     // faz o resto
     return 0;

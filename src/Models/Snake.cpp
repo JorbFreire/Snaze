@@ -1,10 +1,7 @@
 
 #include "../include/Snake.h"
 
-Snake::Snake(int length, int life, int direction) {
-    size = length;
-    hearts = life;
-    facing = direction;
+Snake::Snake() {
 }
 
 Snake::~Snake()
@@ -21,4 +18,9 @@ int Snake::direction() {
 
 int Snake::life() {
     return hearts;
+}
+
+void Snake::setPosition(int row, int collum) {
+    linha = row;
+    coluna = collum;
 }
