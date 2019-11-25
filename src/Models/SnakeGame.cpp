@@ -60,19 +60,19 @@ void SnakeGame::update (Snake snake, Level phase) {
             hearts--;
         }
         else {
-            
+
         }
         
         
     }
 }
 
-void render (Snake cobra, Level phase) {
+void SnakeGame::render (Snake cobra, Level phase) {
 
 
 }
 
-void game_over() {
+void SnakeGame::game_over() {
  /* if (codição de vitoria) {
         cout << mensagem de vitoria << endl;
     }

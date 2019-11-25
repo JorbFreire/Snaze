@@ -38,7 +38,7 @@ public:
     // Processes player input, altering variable values but not making changes to the maze itself
     void update(Snake cobra, Level phase);
     // Cuisa em atualizar o labirinto do jogo dada a entrada (ou falta dela)
-    void render();
+    void render(Snake cobra, Level phase);
     // Cuida de imprimir o estado atual tenha esse mudado ou não
     void game_over();
     // Encerra o jogo, dada que uma condição foi cumprida
