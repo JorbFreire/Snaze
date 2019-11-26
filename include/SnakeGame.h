@@ -50,6 +50,8 @@ public:
     // Compares the values of the snake's current position to those of the new positions to see if a move was made
     void updateHead(Snake snake, Level phase);
     // Updates the head of the snake inside the maze (as in, it changes the char representative of it depending on the direction)
+    void lPosVecGenerator(int row, int col, Level phase, vector <int> * lastPosRowVec, vector <int> * lastPosColVec);
+    // Fills the temporary vectors used to store the last position of the snake, which, in turn, is used to update it's tail
 };
 
 

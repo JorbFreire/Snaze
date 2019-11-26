@@ -165,7 +165,8 @@ bool SnakeGame::comparePos (Snake snake) {
         return true;
 }
 
-void lPosVecGenerator (int row, int col, Level phase, vector <int> * lastPosRowVec, vector <int> * lastPosColVec) {
+// Doesn't need to be inside the SnakeGame class
+void SnakeGame::lPosVecGenerator (int row, int col, Level phase, vector <int> * lastPosRowVec, vector <int> * lastPosColVec) {
     if (phase.maze[row + 1][col] == '▅') 
         lPosVecGenerator(row + 1, col, phase, lastPosRowVec, lastPosColVec);
     else if (phase.maze[row - 1][col] == '▅') 
