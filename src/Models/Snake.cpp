@@ -12,8 +12,16 @@ int Snake::length() {
     return size;
 }
 
+void Snake::grow() {
+    size++;
+}
+
 int Snake::direction() {
     return facing;
+}
+
+void Snake::setDirection(int newDirection) {
+    facing = newDirection;
 }
 
 int Snake::life() {
@@ -30,7 +38,7 @@ void Snake::getHeadPos(int * row, int * collum) {
     *collum = coluna;
 }
 
-int Snake::turnLeft () {
+int Snake::turnLeft() {
    int turn = direction();
    if (turn == 0) {
        turn += 3;
@@ -42,9 +50,18 @@ int Snake::turnLeft () {
    return turn;
 }
 
-int Snake::turnRight () {
+int Snake::turnRight() {
    int turn = direction();
    turn = (turn + 1) % 4;
    return turn;
 }
 
+void Snake::setTailPos(int row, int col) {
+    tailRow = row;
+    tailCol = col;
+}
+
+void Snake::getTailPos(int * row, int * col) {
+    *row = tailRow;
+    *col = tailCol; 
+}

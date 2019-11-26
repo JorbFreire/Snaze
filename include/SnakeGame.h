@@ -5,7 +5,8 @@
 #include "Player.h"
 #include "Snake.h"
 
-#include <random>
+#include <vector>
+#include <iostream>
 
 class SnakeGame
 {
@@ -40,15 +41,17 @@ public:
     // Cuisa em atualizar o labirinto do jogo dada a entrada (ou falta dela)
     void render(Snake cobra, Level phase);
     // Cuida de imprimir o estado atual tenha esse mudado ou não
-    void game_over();
+    void game_over(bool running);
     // Encerra o jogo, dada que uma condição foi cumprida
 
     /*Helper Methods*/
 
-    void defineMove (Snake snake);
+    void defineMove(Snake snake);
     // Called by the process_events() method, it serves to define the next move the snake will make
-    bool comparePos (Snake snake);
+    bool comparePos(Snake snake);
     // Compares the values of the snake's current position to those of the new positions to see if a move was made
+    void updateHead(Snake snake, Level phase);
+    // Updates the head of the snake inside the maze (as in, it changes the char representative of it depending on the direction)
 };
 
 

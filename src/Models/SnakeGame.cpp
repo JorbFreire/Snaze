@@ -5,22 +5,16 @@ using namespace std;
 
 void SnakeGame::initialize_game (Snake cobra, Level phase) {
 
-    random_device r_row, r_collum;
-    int row = r_row() % phase.rows(); // Sortea uma linha
-    int collum = r_collum() % phase.rows(); // Sortea uma coluna
-    if (phase.maze[row][collum] == ' ') {
+    hearts = 5;
+    foodEaten = 0;
 
-        phase.setFood(row, collum); // Define a fruta em uma posição aleatória
+    phase.randomInsertFood(); // Define a fruta em uma posição aleatória
 
+    for (int i = 0; i < phase.rows(); i++) // Encontra o spawn da cobra e a coloca nele
+        for (int e = 0; e < phase.collums(); e++)
+            if (phase.maze[i][e] == '*')
+                cobra.setPosition(i, e);
 
-        for (int i = 0; i < phase.rows(); i++) // Encontra o spawn da cobra e a coloca nele
-            for (int e = 0; e < phase.collums(); e++)
-                if (phase.maze[i][e] == '*')
-                    cobra.setPosition(i, e);
-    }
-    else {
-        initialize_game(cobra, phase);
-    }
 }
 
 void SnakeGame::process_events (char userInput, Snake snake, Level phase) {
@@ -52,18 +46,66 @@ void SnakeGame::update (Snake snake, Level phase) {
         - it is possible to make that move and there is food in that position
         - it is not possible to make that move, the player remains in place and loses a heart */
     if (comparePos(snake)) {
-        if (phase.maze[nextPosRow][nextPosCol] == '#') { // Not possible to make the move
+        if (phase.maze[nextPosRow][nextPosCol] == '#') { // Not possible to make the move.
             int currentRow, currentCol;
             snake.getHeadPos(&currentRow, &currentCol);
             nextPosRow = currentRow;
             nextPosCol = currentCol;
             hearts--;
-        }
-        else {
 
+            updateHead(snake, phase); // Updates the direction that the snake's head is facing
         }
-        
-        
+        else { // It is possible to make the move
+            if (phase.maze[nextPosRow][nextPosCol] == 'F') { // There is food in that position.
+                phase.randomInsertFood();
+                if (snake.length() == 1) {
+                    int headRow, headCol;
+                    snake.getHeadPos(&headRow, &headCol);
+                    snake.setTailPos(headRow, headCol);
+                }
+                int tailRow, tailCol;
+                snake.getTailPos(&tailRow, &tailCol);
+                if (phase.maze[tailRow + 1][tailCol] == ' ') {
+                    phase.maze[tailRow + 1][tailCol] == '▅';
+                    snake.setTailPos(tailRow + 1, tailCol);
+                }
+                else if (phase.maze[tailRow - 1][tailCol] == ' ') {
+                    phase.maze[tailRow - 1][tailCol] == '▅';
+                    snake.setTailPos(tailRow - 1, tailCol);
+                }
+                else if (phase.maze[tailRow][tailCol + 1] == ' ') {
+                    phase.maze[tailRow][tailCol + 1] == '▅';
+                    snake.setTailPos(tailRow, tailCol + 1);
+                }
+                else if (phase.maze[tailRow][tailCol - 1] == ' ') {
+                    phase.maze[tailRow][tailCol - 1] == '▅';
+                    snake.setTailPos(tailRow, tailCol - 1);
+                }
+                snake.grow();
+                foodEaten++;
+            }
+            updateHead(snake, phase); // Updates the direction that the snake's head is facing
+            snake.setDirection(nextDirection); // Sets the snake's head's new direction
+            vector < int > * lastPosRowVec = new vector < int >; 
+            vector < int > * lastPosColVec = new vector < int >; 
+            /* Stores the last position of the snake before updating 
+            to the new one. Used to update it's tail. */
+            int headRow, headCol;
+            snake.getHeadPos(&headRow, &headCol);
+            lPosVecGenerator(headRow, headCol, phase, lastPosRowVec, lastPosColVec);
+            // Fill in the vector with the positions of all the parts of the snake (head & tail)
+            snake.setPosition(nextPosRow, nextPosCol);
+            for (int i = snake.length(); i > 0; i--) {
+                phase.maze[lastPosRowVec->at(i)][lastPosColVec->at(i)] = '▅';
+            }
+            phase.maze[lastPosRowVec->at(0)][lastPosColVec->at(0)] = ' ';
+            /* First, the current positions of each part of the snake are stored in the two
+               temporary vectors, then the head moves to the new position and the vecotrs are
+               used to move it's tail forward.*/
+        }    
+    }
+    else {
+        updateHead(snake, phase); // Updates the direction that the snake's head is facing
     }
 }
 
@@ -72,14 +114,15 @@ void SnakeGame::render (Snake cobra, Level phase) {
 
 }
 
-void SnakeGame::game_over() {
- /* if (codição de vitoria) {
-        cout << mensagem de vitoria << endl;
+void SnakeGame::game_over(bool running) {
+  if (foodEaten == foodTotal) {
+        //cout << mensagem de vitoria << endl;
+        running = false;
     }
-    else {
-        cout << mensagem de derrota << endl;
-    }*/
-    exit(0);
+    else if (hearts == 0) {
+        //cout << mensagem de derrota << endl;
+        running = false;
+    }
 }
 
 
@@ -122,21 +165,37 @@ bool SnakeGame::comparePos (Snake snake) {
         return true;
 }
 
-void headUpdate (int facing, Level phase, Snake snake) {
+void lPosVecGenerator (int row, int col, Level phase, vector <int> * lastPosRowVec, vector <int> * lastPosColVec) {
+    if (phase.maze[row + 1][col] == '▅') 
+        lPosVecGenerator(row + 1, col, phase, lastPosRowVec, lastPosColVec);
+    else if (phase.maze[row - 1][col] == '▅') 
+        lPosVecGenerator(row - 1, col, phase, lastPosRowVec, lastPosColVec);
+    else if (phase.maze[row][col + 1] == '▅') 
+        lPosVecGenerator(row, col + 1, phase, lastPosRowVec, lastPosColVec);
+    else if (phase.maze[row][col - 1] == '▅') 
+        lPosVecGenerator(row, col - 1, phase, lastPosRowVec, lastPosColVec);
+    
+    lastPosRowVec->push_back(row);
+    lastPosColVec->push_back(col);
+}
+
+void SnakeGame::updateHead (Snake snake, Level phase) {
     int row, collum;
     snake.getHeadPos(&row, &collum);
-    switch(facing) {
+    switch(nextDirection) {
         case 0:
-            phase.maze[row][collum] = '△';
+            phase.maze[row][collum] = '▲';
             break;
         case 1:
-            phase.maze[row][collum] = '▷';
+            phase.maze[row][collum] = '►';
             break;
         case 2:
-            phase.maze[row][collum] = '▽';
+            phase.maze[row][collum] = '▼';
             break;
         case 3:
-            phase.maze[row][collum] = '◁';
+            phase.maze[row][collum] = '◄';
             break;
     }
 }
+
+/* Rendering The Game */

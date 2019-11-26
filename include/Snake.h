@@ -1,6 +1,8 @@
 #ifndef SNAKE_H
 #define SNAKE_H
 
+#include "Level.h"
+
 class Snake // The snake class serves to store the current state of the snake in-game
 {
 private:
@@ -15,6 +17,7 @@ private:
        3 - Para a esquerda */
     
     int linha, coluna; // Posição da cabeça da cobra
+    int tailRow, tailCol; // Snake's tail's position
 
 public:
     Snake();
@@ -26,8 +29,18 @@ public:
     int life(); // return the amount of lives 
     int direction(); // returns the direction
 
-    void setPosition(int row, int collum); // sets the snake's position
-    void getHeadPos(int * row, int * collum); // returns the snake's head's position
+    void grow(); // increments the snake's lenght by one
+
+    void setDirection(int newDirection);
+    // Sets the snake's direction
+    void setPosition(int row, int collum);
+    // Sets the snake's head's position
+    void getHeadPos(int * row, int * collum);
+    // Returns the snake's head's position
+    void setTailPos(int row, int collum);
+    // Sets the snake's tail's end
+    void getTailPos(int * row, int * collum);
+    // Returns the snake's tail's end 
     
     int turnRight();
     // Returns the new direction for the head based on the current one in case of a right turn
