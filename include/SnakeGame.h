@@ -17,8 +17,6 @@ private:
     // How many food particles the snake has eaten up to that point
     int foodTotal;
     // How much food there is to eat in that level
-    int lastPosRow, lastPosCol; /* MAKE IT A TEMPORARY VECTOR INSTEAD (NO USE IN KEEPING IT) */
-    // Last position of the snake before the current one, used to update it's tail
     int nextDirection;
     // Direction that the player is making the snake face, which will be used to move
     int nextPosRow, nextPosCol;
